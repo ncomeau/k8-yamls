@@ -36,7 +36,7 @@ echo 'Running Jenkins Container...'
 docker run -d --name jenkins-server --publish 8080:8080  --publish 50000:50000 --volume /var/jenkins:/var/jenkins_home --volume /var/run/docker.sock:/var/run/docker.sock cbc-jenkins
 echo '----------------------------------------------------------'
 
-echo 'Running getting password'
+echo 'Getting Jenkins Initial password'
 echo "Your initial Jenkins admin password = $(docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword)"
 echo "admin:$(docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword)" > creds
 
@@ -63,5 +63,8 @@ echo '----------------------------------------------------------'
 echo '----------------------------------------------------------'
 echo 'RUN THE FOLLOWING COMMAND: and see demo doc for next steps:'
 echo 'source  ~/.bashrc'
+
+echo 'Also this is your initial Jenkins admin password again = $(docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword)'
+
 echo '----------------------------------------------------------'
 echo 'Once you have run the above command, see demo doc for next steps'
