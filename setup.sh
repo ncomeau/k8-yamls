@@ -20,7 +20,7 @@ apt-get -y install docker.io git
 echo '----------------------------------------------------------'
 
 echo 'Installing java for Jenkins CLI...'
-apt install default-jre
+apt-get -y install default-jre
 echo '----------------------------------------------------------'
 
 echo 'Get Jenkins Image Repo...'
@@ -37,11 +37,28 @@ docker run -d --name jenkins-server --publish 8080:8080  --publish 50000:50000 -
 echo '----------------------------------------------------------'
 
 echo 'Running getting password'
-docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword 
+echo "Your initial Jenkins admin password = $(docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword)"
+echo "admin:$(docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword)" > creds
 
 echo 'Creating feline namespace for testing'
 microk8s.kubectl create namespace feline
 echo '----------------------------------------------------------'
+
+echo 'Getting Jenkins CLI jar File"
+wget http://0.0.0.0:8080/jnlpJars/jenkins-cli.jar
+echo '----------------------------------------------------------'
+
+echo 'Downloading needed plugins'
+java -jar jenkins-cli.jar -s http://0.0.0.0:8080/ -auth @creds install-plugin docker-plugin
+java -jar jenkins-cli.jar -s http://0.0.0.0:8080/ -auth @creds install-plugin kubernetes
+java -jar jenkins-cli.jar -s http://0.0.0.0:8080/ -auth @creds install-plugin slack
+
+echo '----------------------------------------------------------'
+
+echo 'Restarting Jenkins'
+java -jar jenkins-cli.jar -s http://0.0.0.0:8080/ -auth @creds safe-restart
+echo '----------------------------------------------------------'
+
 
 echo '----------------------------------------------------------'
 echo 'RUN THE FOLLOWING COMMAND: and see demo doc for next steps:'
