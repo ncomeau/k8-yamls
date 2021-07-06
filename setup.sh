@@ -36,13 +36,16 @@ echo 'Running Jenkins Container...'
 docker run -d --name jenkins-server --publish 8080:8080  --publish 50000:50000 --volume /var/jenkins:/var/jenkins_home --volume /var/run/docker.sock:/var/run/docker.sock cbc-jenkins
 echo '----------------------------------------------------------'
 
-echo 'Getting Jenkins Initial password'
-echo "Your initial Jenkins admin password = $(docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword)"
-echo "admin:$(docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword)" > creds
-
 echo 'Creating feline namespace for testing'
 microk8s.kubectl create namespace feline
 echo '----------------------------------------------------------'
+
+echo 'Getting Jenkins Initial password'
+sleep 20
+echo "Your initial Jenkins admin password = $(docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword)"
+echo "admin:$(docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword)" > creds
+echo '----------------------------------------------------------'
+
 
 echo 'Getting Jenkins CLI jar File"
 wget http://0.0.0.0:8080/jnlpJars/jenkins-cli.jar
