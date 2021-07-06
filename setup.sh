@@ -64,10 +64,10 @@ echo '----------------------------------------------------------'
 
 
 echo '----------------------------------------------------------'
-echo 'RUN THE FOLLOWING COMMAND: and see demo doc for next steps:'
+echo 'RUN THE FOLLOWING COMMAND:'
 echo 'source  ~/.bashrc'
 
 echo 'Also this is your initial Jenkins admin password again = $(docker exec jenkins-server cat /var/jenkins_home/secrets/initialAdminPassword)'
 
 echo '----------------------------------------------------------'
-echo 'Once you have run the above command, see demo doc for next steps'
+echo "Once you have run the above command, see demo doc for next steps"
