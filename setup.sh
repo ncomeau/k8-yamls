@@ -47,7 +47,7 @@ echo "admin:$(docker exec jenkins-server cat /var/jenkins_home/secrets/initialAd
 echo '----------------------------------------------------------'
 
 
-echo 'Getting Jenkins CLI jar File"
+echo 'Getting Jenkins CLI jar File'
 wget http://0.0.0.0:8080/jnlpJars/jenkins-cli.jar
 echo '----------------------------------------------------------'
 
