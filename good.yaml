@@ -5,6 +5,7 @@ metadata:
   labels:
     app: static-site
 spec:
+  hostNetwork: true
   containers:
     - name: static-site
       image: ncomeau/demo
@@ -14,24 +15,9 @@ spec:
           cpu: "250m"
         limits:
           memory: "128Mi"
-          cpu: "500m"      
+          cpu: "500m"
       ports:
       - containerPort: 80
         hostPort: 80
         name: static-site
 
----
-# https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service
-kind: Service
-apiVersion: v1
-metadata:
-  name: static-service
-spec:
-  selector:
-    app: static-site
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
-    nodePort: 31000
-  type: NodePort
