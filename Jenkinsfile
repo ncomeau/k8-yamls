@@ -54,11 +54,12 @@ volumes: [
      stage('Cbctl yaml Validate') {
          try{
      sh '/var/jenkins_home/app/cbctl k8s-object validate -f /yamls/bad.yaml -o json > ncomeau_k8s_validate.json'
-              sh 'python3 /var/jenkins_home/app/k8s_validate_slack.py ncomeau_k8s_validate.json'
 
      }
      catch(err3){
-                echo " STILL exist, idiot"
+                echo " STILL exist, idiot - peep slack for deets"
+                sh 'python3 /var/jenkins_home/app/k8s_validate_slack.py ncomeau_k8s_validate.json'
+
                 sh '/var/jenkins_home/app/cbctl k8s-object validate -f /yamls/good.yaml'
 
          }
@@ -112,7 +113,7 @@ spec:
     targetPort: 80
     nodePort: 31000
   type: NodePort"""
-    sh 'ls -l nick.yaml'
+    
     sh 'pwd'
 }   
 }
