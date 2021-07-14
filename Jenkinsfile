@@ -40,7 +40,6 @@ volumes: [
          }
      }
 
- node { 
      stage('Cloning desired yamls from Github Registry') {
          
          try {
@@ -65,7 +64,7 @@ volumes: [
          }
      }
      
- }
+ 
 }
 def k8 = "jenkins-k8-${UUID.randomUUID().toString()}"
 podTemplate(label: k8, containers: [
