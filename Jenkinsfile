@@ -29,10 +29,15 @@ volumes: [
 
      
      stage('Cbctl Image Validate') {
+         try{
      sh '/var/jenkins_home/app/cbctl image validate ncomeau/demo -o json > ncomeau_image_validate.json'
+         }
+         catch(err){
+            
+            echo 'Finished with violations'
               sh 'python3 /var/jenkins_home/app/image_validate_slack.py ncomeau_image_validate.json'
 
-        
+         }
      }
 
  node { 
@@ -41,7 +46,7 @@ volumes: [
          try {
          sh 'git clone https://github.com/ncomeau/k8-yamls.git /yamls'
          }
-         catch(err){
+         catch(err2){
              echo "Repo already exists!"
          }
      }
@@ -52,7 +57,7 @@ volumes: [
               sh 'python3 /var/jenkins_home/app/k8s_validate_slack.py ncomeau_k8s_validate.json'
 
      }
-     catch(err){
+     catch(err3){
                 echo " STILL exist, idiot"
                 sh '/var/jenkins_home/app/cbctl k8s-object validate -f /yamls/good.yaml'
 
